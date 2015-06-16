@@ -1,0 +1,328 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<title>FMAuthenticator | Setup and Configuration</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta name="viewport" content="user-scalable=no, width=device-width" />
+		<meta name="ua-loopback" content="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/600.6.3 (KHTML, like Gecko) Version/8.0.6 Safari/600.6.3" />
+		<meta name="mobdev-detected" content="" />		
+		<link rel="stylesheet" type="text/css" media="all" href="http://timdietrich.me/application/ui-stylesheet.css" />
+	</head>
+
+	<body>
+	
+		<div style="background: #fff; padding: 24px; border: 1px solid #8F8F8F; width: 800px; margin-left: auto; margin-right: auto; margin-top: 24px; margin-bottom: 24px; border-radius: 12px; box-shadow: 4px 4px 2px #888888;">								
+			<!-- Page Header Row -->
+<div class="header-title" style="width: 100%; text-align: left; font-size: 10pt; padding-bottom: 9px; margin-bottom: 0px; border-bottom: solid 1px #ccc;">
+				
+	<div>
+	<a href="http://timdietrich.me/" style="font-size: 18pt; font-weight: bold; text-decoration: none; color: black;">
+	Tim Dietrich</a>
+	</div>
+	<div style="margin-top: 3px;">	
+	<span style="margin-left: 0px; margin-right: 3px;">
+	<a href="http://timdietrich.me/application/index.php" class="nav_link" title="About Tim">
+	About</a></span> |
+	<span style="margin-left: 3px; margin-right: 3px;">
+	<a href="http://timdietrich.me/application/work.php" class="nav_link" title="Database Consulting">
+	Database Consulting</a></span> |
+	<!--
+	<a href="http://timdietrich.me/application/icd10.php" class="nav_link" title="ICD-10 Work">
+	ICD-10</a></span> |
+	-->
+	<span style="margin-left: 3px; margin-right: 3px;">
+	<a href="http://timdietrich.me/application/books.php" class="nav_link" title="Tim's Books">
+	Writing</a></span> |<!--
+	<a href="http://timdietrich.me/application/courses.php" class="nav_link" title="Tim's Books">
+	Courses</a></span> |	
+	-->
+	<span style="margin-left: 3px; margin-right: 3px;">
+	<a href="http://art.timdietrich.me/" class="nav_link" target="_art" title="Tim's Art">
+	Art</a></span> |
+	<span style="margin-left: 3px; margin-right: 3px;">
+	<a href="http://timdietrich.me/blog/" class="nav_link" title="Tim's Blog">
+	Blog</a></span> |
+	<span style="margin-left: 3px; margin-right: 3px;">
+	<a href="http://timdietrich.me/application/resources.php" class="nav_link" title="Resume, Recommended Sites, Open Source Projects, etc.">
+	Resources</a></span> |
+	<span style="margin-left: 3px; margin-right: 3px;">
+	<a href="http://timdietrich.me/application/contact.php" class="nav_link" x-style="font-weight: bold;" title="Contact Tim">
+	Contact</a></span> |
+	<span style="margin-left: 3px; margin-right: 3px;">
+	<a href="http://timdietrich.me/application/newsletter.php" class="nav_link" x-style="font-weight: bold;" title="Tim's Newsletter">
+	Newsletter</a>	
+	</span>			
+	</div>										
+</div>			
+			<div style="clear: both;"></div>
+			
+			<div style="margin-top: 18px; padding: 0px; background: #ffffff;">
+						
+								
+					<div style="width: 65%; float: left;">
+						
+<h1>FMAuthenticator: Setup and Configuration</h1>
+
+<p>
+To configure your database for use with FMAuthenticator, following these instructions.
+</p>
+
+<p style="margin-top: 36px;">
+<span style="font-weight: bold;">1. Import the FMAuthenticator table from the demo file.</span>
+</p>
+<p>
+The FMAuthenticator table is used to store supplementary information about the database's users.
+</p>
+
+<p style="margin-top: 36px;">
+<span style="font-weight: bold;">2. Add records to the FMAuthenticator table.</span>
+</p>
+<p>
+For each user that you want to authenticate, add a record to the FMAuthenticator table. A list of fields in the table, and their purpose, is displayed below.
+</p>
+<p>
+
+<p>
+<table class="gridtable">
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>Account_Name</td>
+<td>This should match the user's FileMaker Account Name. The field is setup to prevent duplicate values, and a value is required.</td>
+</tr>
+
+<tr>
+<td>Email_Address</td>
+<td>The e-mail address to send authentication codes to when this user logs in. You can use standard email addresses, or an email address that can be used to send a text message to a phone using an SMS gateway. For help with determining a user's SMS gateway address, <a href="sms-gateways.php">click here</a>. If you want to send authentication codes to multiple addresses, separate them with a comma. ex: test@example.com, 5555551212@txt.att.net</td>
+</tr>
+
+<tr>
+<td>Allow_Bypass
+<td>Use this field to indicate that the user should be allowed to bypass the two-factor authentication process. By default, the field is set to a value of 0. Set it to 1 to allow the user to bypass 2FA.
+</tr>
+
+</table>
+</p>
+
+<p>
+Note: An additional field, "Code_Entered" is also in the FMAuthenticator table. This is a global field, and is used by the FMAuthenticator script.
+</p>
+
+
+<p style="margin-top: 36px;">
+<span style="font-weight: bold;">3. Import the FMAuthenticator script from the demo file.</span>
+</p>
+<p>
+Review the imported script, and adjust any script steps that are showing errors. There are two steps in particular that can break:
+<ul>
+<li>The first "Show Custom Dialog" script step, located near the comment that reads, "Ask the user for the override code."</li>
+<li>The "Show Custom Dialog" script step that is located near the comment that reads, "Prompt the user for the code."</li>
+</ul>
+</p>
+<p>
+In both cases, the "Input Field #1" script step option should reference the "FMAuthenticator::Code_Entered" field.
+</p>
+
+
+<p style="margin-top: 36px;">
+<span style="font-weight: bold;">4. Review and set FMAuthenticator's settings.</span>
+</p>
+<p>
+You can easily configure FMAuthenticator by adjusting the "Set Variable" steps in the FMAuthenticator script. Here is a list of the settings, what they control, default values, and notes.
+</p>
+
+<p>
+
+<table class="gridtable">
+<tr>
+<th>Setting</th>
+<th>Description</th>
+<th>Default Value</th>
+</tr>
+<tr>
+<td>service_override_code</td>
+<td>This is the code that full access users can enter if they want to log into the database without 2FA. The login and hold Option+Shift (Mac) or Alt+Shift (Windows), and will be asked for this code.</td>
+<td>FM2FAOverride!</td>
+</tr>
+
+<tr>
+<td>code_length</td>
+<td>The length of the code generated.</td>
+<td>4</td>
+</tr>
+
+<tr>
+<td>max_attempts</td>
+<td>The maximum number of login attempts that a user can make before the file is closed.</td>
+<td>3</td>
+</tr>
+
+<tr>
+<td>unknown_user_behavior</td>
+<td>Indicates what should happen if there the Account Name that was used to login does not have a matching record in the FMAuthenticator table.<br />
+<br />
+Options:
+<ul>
+<li>Bypass: Bypasses the two-factor authentication process, allowing the user into the database.</li>
+<li>Close: Closes the database, preventing the user from accessing the database.</li>
+</ul>
+</td>
+<td>Bypass</td>
+</tr>
+
+<tr>
+<td>smtp_error_behavior</td>
+<td>Indicates what should happen if there is a problem sending the code via the SMTP server.<br />
+<br />
+Options:
+<ul>
+<li>Bypass: Bypasses the two-factor authentication process, allowing the user into the database.</li>
+<li>Close: Closes the database, preventing the user from accessing the database.</li>
+</ul>
+</td>
+<td>Bypass</td>
+</tr>
+
+<tr>
+<td>smtp_email_address</td>
+<td>The email address that is associated with the SMTP account being used to send codes during the authentication process.</td>
+<td>N/A</td>
+</tr>
+
+<tr>
+<td>smtp_user_name</td>
+<td>The SMTP user name that is being used to authenticate with the SMTP server.</td>
+<td>N/A</td>
+</tr>
+
+<tr>
+<td>smtp_password</td>
+<td>The SMTP password that is being used to authenticate with the SMTP server.</td>
+<td>N/A</td>
+</tr>
+
+<tr>
+<td>smtp_server</td>
+<td>The SMTP server name.</td>
+<td>N/A</td>
+</tr>
+
+<tr>
+<td>smtp_port</td>
+<td>The SMTP port.</td>
+<td>N/A</td>
+</tr>
+
+</table>
+
+</p>
+
+
+<p style="margin-top: 36px;">
+<span style="font-weight: bold;">5. Check the configuration of the Send Mail script step.</span>
+</p>
+<p>
+The Send Mail script step has been pre-configured so that it works with most SMTP servers. However, you might need to adjust the settings based on your particular SMTP server. Be sure to select the correct Connection encryption type (None, SSL, TLS) as well as the Authentication method (None, Plain Password, or Cram-MD5).
+</p>
+<p>
+
+
+<p style="margin-top: 36px;">
+<span style="font-weight: bold;">6. Add FMAuthenticator to the Database's Startup Process</span>
+</p>
+<p>
+To include FMAuthenticator as part of the startup process, assign the FMAuthenticator script to the database's OnFirstWindowOpen script trigger. You can configure the database's script triggers by selecting File > File Options and selecting the Script Triggers tab.
+</p>
+<p>
+If the database already has a script assigned to the OnFirstWindowOpen trigger, then call the FMAuthenticator script as a sub-script of that script. (Ideally, the call to the FMAuthenticator script should be the first step.) 
+</p>
+
+<p style="margin-top: 36px;">
+<span style="font-weight: bold;">Problems or questions?</span>
+</p>
+<p>
+Please refer to the <a href="troubleshooting.php">Troubleshooting</a> page.
+</p>
+
+
+
+					</div>				
+				
+					<div style="width: 5%; float: left;">
+						&nbsp;
+					</div>
+					
+					<div style="width: 30%; float: right;">
+						
+<div class="banner" style="x-margin-top: 72px; line-height: 1.8em; background: #eee;">
+	<div style="font-weight: bold; font-size: 12pt; margin-bottom: 9px;">FMAuthenticator Resources</div>
+	&bull; <a href="http://timdietrich.me/fmauthenticator/index.php">Introduction</a><br />
+	&bull; <a href="http://timdietrich.me/fmauthenticator/faq.php">FAQ</a><br />
+	&bull; <a href="http://timdietrich.me/fmauthenticator/downloads.php">Downloads</a><br />
+	&bull; <a href="http://timdietrich.me/fmauthenticator/setup.php">Documentation</a><br />											
+	&bull; <a href="http://timdietrich.me/fmauthenticator/troubleshooting.php">Troubleshooting</a><br />
+	&bull; <a href="http://timdietrich.me/fmauthenticator/sms-gateways.php">SMS Gateways</a><br />
+	&bull; <a href="http://timdietrich.me/application/newsletter.php">Mailing List</a><br />
+</div>
+
+
+<div class="banner">
+<a href="http://fmeasyweb.com">
+<img src="/application/images/fmeasyweb_logo.png" align="left" height="44" style="padding-right: 9px;" border="0" align="left"></a>
+With <a href="http://fmeasyweb.com">FMEasyWeb</a>, you'll be able to create Web-based FileMaker solutions without writing code.
+<a href="http://fmeasyweb.com">Learn more</a>.
+</div>
+
+
+
+<div class="banner">
+	<a href="/application/books.php">
+	<img src="http://timdietrich.me/application/images/fmabg_cover_2.jpg" style="max-height: 60px; padding-right: 9px;" border="0" align="left"></a>
+	My first book, 
+	<a href="/application/books.php">
+	The FileMaker Pro 13 Absolute Beginner's Guide</a>, is now available.
+</div>
+
+<div class="banner" style="min-height: 48px;">
+	<a href="http://twitter.com/tdietrich" target="_twitter">
+	<img src="http://timdietrich.me/application/images/twitter_black.png" height="42px" style="padding-right: 9px;" border="0" align="left"></a>
+	Want to know what I'm working on? Follow me on Twitter: 
+	<a href="http://twitter.com/tdietrich" target="_new">@tdietrich</a>	
+</div>
+
+					</div>
+					
+							
+				
+
+			</div>	
+			
+			<div style="clear: both;"></div>
+				
+			<div class="footer" style="margin-top: 24px; margin-bottom: 0px; border-top: solid 1px #ccc; padding-top: 18px; text-align: center; font-size: 10pt; padding-bottom: 0px;">
+	<div>
+	&copy; 2015 Tim Dietrich. 
+						
+</div>		
+			
+						
+		</div>
+		
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+		  ga('create', 'UA-59558723-1', 'auto');
+		  ga('send', 'pageview');
+		
+		</script>		
+		
+	</body>
+	
+</html>

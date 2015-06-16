@@ -37,8 +37,8 @@ SUCH DAMAGE.
 
 For additional information, please contact:
 
-Timothy Dietrich
-Postal Address: 2711 Buford Road, Suite #163, Richmond, VA 23235-2433 USA
-Email: (timdietrich@me.com)[mailto:timdietrich@me.com]
-Web: http://timdietrich.me
+Timothy Dietrich  
+Postal Address: 2711 Buford Road, Suite #163, Richmond, VA 23235-2433 USA  
+Email: timdietrich@me.com  
+Web: http://timdietrich.me  
 Twitter: @tdietrich
